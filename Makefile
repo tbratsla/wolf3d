@@ -16,7 +16,7 @@ FLAGS = -Werror -Wall -O3 -Wextra -Ofast -flto -pipe -fsanitize=address -g
 
 NAME = wolf3d
 
-SRC = main.c read_map.c free.c game.c init.c events.c \
+SRC = main.c read_map.c free.c game.c init.c events.c draw.c \
 
 INC = inc/wolf3d.h
 

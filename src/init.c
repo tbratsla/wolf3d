@@ -22,6 +22,8 @@ void	init_var(t_wolf *wolf)
 	wolf->planeY = 0.33; //the 2d raycaster version of camera plane
 	wolf->time = 0; //time of current frame
 	wolf->oldTime = 0; //time of previous frame
+	wolf->move_speed = 0.15;
+	wolf->rot_speed = 0.04;
 	wolf->win = SDL_CreateWindow("Create Level", 0, 0, WIDTH,\
 		HEIGHT, SDL_WINDOW_SHOWN);
 	wolf->sur = SDL_GetWindowSurface(wolf->win);
@@ -53,7 +55,7 @@ void	init_sidedist(t_wolf *wolf)
 
 void	init_raycast(t_wolf *wolf, int x)
 {
-	wolf->cameraX = 2 * x / WIDTH - 1;
+	wolf->cameraX = 2 * x / (double)WIDTH - 1;
 	wolf->rayDirX = wolf->dirX + wolf->planeX * wolf->cameraX;
 	wolf->rayDirY = wolf->dirY + wolf->planeY * wolf->cameraX;
 	wolf->mapX = (int)wolf->posX;

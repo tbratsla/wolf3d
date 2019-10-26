@@ -20,13 +20,13 @@
 # include "../Libft/libft.h"
 # include <math.h>
 
-# define WIDTH 1024
-# define HEIGHT 712
-# define GREEN	0x00ad20
-# define BLUE	0x0058db
-# define RED	0xdb0000
-# define YELLOW	0xffe600
-# define ARGENT 0xf5f8ff
+# define WIDTH		1024
+# define HEIGHT		712
+# define GREEN		0x00ad20
+# define BLUE		0x0058db
+# define RED		0xdb0000
+# define YELLOW		0xffe600
+# define ARGENT		0xf5f8ff
 
 typedef struct		s_wolf
 {
@@ -63,6 +63,8 @@ typedef struct		s_wolf
     int				drawStart;
     int				drawEnd;
     int				color;
+    double			move_speed;
+    double			rot_speed;
 }					t_wolf;
 
 /*
@@ -92,6 +94,17 @@ void				search_wall(t_wolf *wolf);
 */
 
 void				event(t_wolf *wolf);
+void				rotation(t_wolf *wolf, int side);
+
+/*
+** draw functions
+*/
+
+void				set_color(t_wolf *wolf);
+void				ft_set_pixel(t_wolf *wolf, int x, int y);
+void				draw_vert_line(t_wolf *wolf, int x);
+void				ft_clear_screen(t_wolf *wolf);
+
 
 /*
 ** free function
