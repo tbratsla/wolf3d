@@ -13,7 +13,7 @@
 #include "../inc/wolf3d.h"
 #include <stdio.h>
 
-t_wolf		*ft_read_map(char **av)
+t_wolf	*ft_read_map(char **av)
 {
 	t_wolf	*wolf;
 	int		fd;
@@ -182,7 +182,7 @@ void	ft_check_count_num(t_wolf *wolf, char **map)
 			while (map[i][j] && !ft_isdigit(map[i][j]))
 				j++;
 			if (ft_isdigit(map[i][j]))
-			{	
+			{
 				k++;
 				while (map[i][j] && ft_isdigit(map[i][j]))
 					j++;
@@ -247,5 +247,4 @@ void	get_int_map(t_wolf *wolf, char **map)
 		ft_putstr("\n");
 		i++;
 	}
-
 }

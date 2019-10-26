@@ -16,10 +16,10 @@ void	calc_height(t_wolf *wolf)
 {
 	wolf->lineHeight = (int)(HEIGHT / wolf->perpWallDist);
 	wolf->drawStart = -wolf->lineHeight / 2 + HEIGHT / 2;
-	if(wolf->drawStart < 0)
+	if (wolf->drawStart < 0)
 		wolf->drawStart = 0;
 	wolf->drawEnd = wolf->lineHeight / 2 + HEIGHT / 2;
-	if(wolf->drawEnd >= HEIGHT)
+	if (wolf->drawEnd >= HEIGHT)
 		wolf->drawEnd = HEIGHT - 1;
 }
 
@@ -44,8 +44,8 @@ void	search_wall(t_wolf *wolf)
 			wolf->hit = 1;
 	}
 	if (wolf->side == 0)
-      	wolf->perpWallDist = (wolf->mapX - wolf->posX + (1 - wolf->stepX)\
-      		/ 2) / wolf->rayDirX;
+		wolf->perpWallDist = (wolf->mapX - wolf->posX + (1 - wolf->stepX)\
+		/ 2) / wolf->rayDirX;
 	else
 		wolf->perpWallDist = (wolf->mapY - wolf->posY + (1 - wolf->stepY)\
 			/ 2) / wolf->rayDirY;
@@ -59,19 +59,18 @@ void	game(t_wolf *wolf)
 	while (1)
 	{
 		while (SDL_PollEvent(&wolf->event))
-   			event(wolf);
-   		x = 0;
-   		while (x < WIDTH)
-   		{
-   			init_raycast(wolf, x);
-   			init_sidedist(wolf);
-      		search_wall(wolf);
-      		calc_height(wolf);
-      		set_color(wolf);
-      		draw_vert_line(wolf, x);
-   			x++;
-   		}
-
+			event(wolf);
+		x = 0;
+		while (x < WIDTH)
+		{
+			init_raycast(wolf, x);
+			init_sidedist(wolf);
+			search_wall(wolf);
+			calc_height(wolf);
+			set_color(wolf);
+			draw_vert_line(wolf, x);
+			x++;
+		}
 		SDL_UpdateWindowSurface(wolf->win);
 	}
 }

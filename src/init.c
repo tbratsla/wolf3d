@@ -15,13 +15,11 @@
 void	init_var(t_wolf *wolf)
 {
 	wolf->posX = 6;
-	wolf->posY = 2;  //x and y start position
+	wolf->posY = 2;
 	wolf->dirX = -1;
-	wolf->dirY = 0; //initial direction vector
+	wolf->dirY = 0;
 	wolf->planeX = 0;
-	wolf->planeY = 0.33; //the 2d raycaster version of camera plane
-	wolf->time = 0; //time of current frame
-	wolf->oldTime = 0; //time of previous frame
+	wolf->planeY = 0.33;
 	wolf->move_speed = 0.15;
 	wolf->rot_speed = 0.04;
 	wolf->win = SDL_CreateWindow("Create Level", 0, 0, WIDTH,\

@@ -95,6 +95,7 @@ void				search_wall(t_wolf *wolf);
 
 void				event(t_wolf *wolf);
 void				rotation(t_wolf *wolf, int side);
+void				movement(t_wolf *wolf, int side);
 
 /*
 ** draw functions

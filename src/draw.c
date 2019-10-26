@@ -25,16 +25,16 @@ void	set_color(t_wolf *wolf)
 	if (wolf->map[wolf->mapX][wolf->mapY] == 5)
 		wolf->color = ARGENT;
 	if (wolf->side == 1)
-      	wolf->color = wolf->color / 2;
+		wolf->color = wolf->color / 2;
 }
 
 void	ft_set_pixel(t_wolf *wolf, int x, int y)
 {
-	int  *pic;
+	int		*pic;
 
- 	if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT && wolf->color)
- 	{
- 		pic = wolf->sur->pixels + y * wolf->sur->pitch +
+	if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT && wolf->color)
+	{
+		pic = wolf->sur->pixels + y * wolf->sur->pitch +
 		x * wolf->sur->format->BytesPerPixel;
 		*pic = wolf->color;
 	}
