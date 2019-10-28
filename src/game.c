@@ -56,10 +56,13 @@ void	game(t_wolf *wolf)
 	int		x;
 
 	init_var(wolf);
+	SDL_SetRelativeMouseMode(SDL_TRUE);
 	while (1)
 	{
 		while (SDL_PollEvent(&wolf->event))
 			event(wolf);
+		SDL_GetRelativeMouseState(&wolf->mouse.x,&wolf->mouse.y);
+ 		rotation(wolf, 1, wolf->mouse.x * wolf->rot_speed / 10);
 		x = 0;
 		while (x < WIDTH)
 		{

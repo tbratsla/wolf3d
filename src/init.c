@@ -20,8 +20,14 @@ void	init_var(t_wolf *wolf)
 	wolf->dirY = 0;
 	wolf->planeX = 0;
 	wolf->planeY = 0.33;
-	wolf->move_speed = 0.15;
-	wolf->rot_speed = 0.04;
+	wolf->move_speed = 0.1;
+	wolf->rot_speed = 0.02;
+	wolf->events = ft_memalloc(sizeof(t_ev));
+	wolf->events->up = 0;
+	wolf->events->down = 0;
+	wolf->events->r_rot = 0;
+	// wolf->angle = 0.0;
+	wolf->events->l_rot = 0;
 	wolf->win = SDL_CreateWindow("Create Level", 0, 0, WIDTH,\
 		HEIGHT, SDL_WINDOW_SHOWN);
 	wolf->sur = SDL_GetWindowSurface(wolf->win);

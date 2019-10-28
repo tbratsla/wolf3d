@@ -28,6 +28,20 @@
 # define YELLOW		0xffe600
 # define ARGENT		0xf5f8ff
 
+typedef struct		s_mou
+{
+	int				x;
+	int				y;
+}					t_mou;
+
+typedef struct		s_ev
+{
+	int				up;
+	int				down;
+	int				r_rot;
+	int				l_rot;
+}					t_ev;
+
 typedef struct		s_wolf
 {
 	int				**map;
@@ -65,6 +79,9 @@ typedef struct		s_wolf
     int				color;
     double			move_speed;
     double			rot_speed;
+    t_ev			*events;
+    t_mou			mouse;
+    double			angle_x;
 }					t_wolf;
 
 /*
@@ -94,7 +111,7 @@ void				search_wall(t_wolf *wolf);
 */
 
 void				event(t_wolf *wolf);
-void				rotation(t_wolf *wolf, int side);
+void				rotation(t_wolf *wolf, int side, double angle);
 void				movement(t_wolf *wolf, int side);
 
 /*
