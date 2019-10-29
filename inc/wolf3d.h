@@ -40,6 +40,8 @@ typedef struct		s_ev
 	int				down;
 	int				r_rot;
 	int				l_rot;
+	int				r_move;
+	int				l_move;
 }					t_ev;
 
 typedef struct		s_wolf
@@ -112,7 +114,8 @@ void				search_wall(t_wolf *wolf);
 
 void				event(t_wolf *wolf);
 void				rotation(t_wolf *wolf, int side, double angle);
-void				movement(t_wolf *wolf, int side);
+void				movement(t_wolf *wolf, double side);
+void				side_step(t_wolf *wolf, int side);
 
 /*
 ** draw functions

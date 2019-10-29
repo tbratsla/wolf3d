@@ -26,6 +26,8 @@ void	init_var(t_wolf *wolf)
 	wolf->events->up = 0;
 	wolf->events->down = 0;
 	wolf->events->r_rot = 0;
+	wolf->events->r_move = 0;
+	wolf->events->l_move = 0;
 	// wolf->angle = 0.0;
 	wolf->events->l_rot = 0;
 	wolf->win = SDL_CreateWindow("Create Level", 0, 0, WIDTH,\

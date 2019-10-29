@@ -30,18 +30,35 @@ void	event(t_wolf *wolf)
 			wolf->events->r_rot = wolf->event.key.type == SDL_KEYDOWN;
 		if (wolf->event.key.keysym.sym == SDLK_LEFT)
 			wolf->events->l_rot = wolf->event.key.type == SDL_KEYDOWN;
+		if (wolf->event.key.keysym.sym == SDLK_d)
+			wolf->events->r_move = wolf->event.key.type == SDL_KEYDOWN;
+		if (wolf->event.key.keysym.sym == SDLK_a)
+			wolf->events->l_move = wolf->event.key.type == SDL_KEYDOWN;
 		if (wolf->events->up)
-			movement(wolf, 1);
+			movement(wolf, 1.0);
 		if (wolf->events->down)
-			movement(wolf, -1);
+			movement(wolf, -1.0);
 		if (wolf->events->r_rot)
 			rotation(wolf, 1, wolf->rot_speed);
 		if (wolf->events->l_rot)
 			rotation(wolf, -1, wolf->rot_speed);
+		if (wolf->events->r_move)
+			side_step(wolf, 1);
+		if (wolf->events->l_move)
+			side_step(wolf, -1);
 	}
 }
 
-void	movement(t_wolf *wolf, int side)
+void	side_step(t_wolf *wolf, int side)
+{
+	ft_clear_screen(wolf);
+	rotation(wolf, side, M_PI / 2);
+	movement(wolf, 0.2);
+	rotation(wolf, -side, M_PI / 2);
+
+}
+
+void	movement(t_wolf *wolf, double side)
 {
 	ft_clear_screen(wolf);
 	if (!wolf->map[(int)(wolf->posX + side * wolf->dirX * wolf->move_speed)]\
