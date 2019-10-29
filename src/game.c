@@ -29,21 +29,27 @@ void	search_wall(t_wolf *wolf)
 	{
 		if (wolf->sideDistX < wolf->sideDistY)
 		{
+			printf("sideDistX = %f\n", wolf->sideDistX);
 			wolf->sideDistX += wolf->deltaDistX;
 			wolf->mapX += wolf->stepX;
 			wolf->side = 0;
+			if (wolf->rayDirX > 0)
+				wolf->side = 2;
 		}
 		else
 		{
+			printf("sideDistY = %f\n", wolf->sideDistY);
 			wolf->sideDistY += wolf->deltaDistY;
 			wolf->mapY += wolf->stepY;
 			wolf->side = 1;
+			if (wolf->rayDirY > 0)
+				wolf->side = 3;
 		}
 		if (wolf->map[wolf->mapX] && wolf->map[wolf->mapX][wolf->mapY]
 			&& wolf->map[wolf->mapX][wolf->mapY] > 0)
 			wolf->hit = 1;
 	}
-	if (wolf->side == 0)
+	if (wolf->side == 0 || wolf->side == 2)
 		wolf->perpWallDist = (wolf->mapX - wolf->posX + (1 - wolf->stepX)\
 		/ 2) / wolf->rayDirX;
 	else

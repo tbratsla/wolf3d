@@ -24,8 +24,14 @@ void	set_color(t_wolf *wolf)
 		wolf->color = YELLOW;
 	if (wolf->map[wolf->mapX][wolf->mapY] == 5)
 		wolf->color = ARGENT;
+	if (wolf->map[wolf->mapX][wolf->mapY] == 6)
+		wolf->color = PURPURE;
 	if (wolf->side == 1)
 		wolf->color = wolf->color / 2;
+	if (wolf->side == 2)
+		wolf->color = wolf->color * 2;
+	if (wolf->side == 3)
+		wolf->color = wolf->color * 3;
 }
 
 void	ft_set_pixel(t_wolf *wolf, int x, int y)

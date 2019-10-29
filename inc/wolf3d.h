@@ -26,6 +26,7 @@
 # define BLUE		0x0058db
 # define RED		0xdb0000
 # define YELLOW		0xffe600
+# define PURPURE	0x960069
 # define ARGENT		0xf5f8ff
 
 typedef struct		s_mou
