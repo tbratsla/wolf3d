@@ -12,6 +12,41 @@
 
 #include "../inc/wolf3d.h"
 
+void	calc_wall(t_wolf *wolf, int x)
+{
+	wolf->texture->text_num = wolf->map[wolf->mapX][wolf->mapY] - 1;
+	if (wolf->side == 1)
+		wolf->texture->text_num = (wolf->texture->text_num + 1) % TEXTNUM;
+	if (wolf->side == 2)
+		wolf->texture->text_num = (wolf->texture->text_num + 2) % TEXTNUM;
+	if (wolf->side == 3)
+		wolf->texture->text_num = (wolf->texture->text_num + 3) % TEXTNUM;
+	if (wolf->side == 0 || wolf->side == 2)
+		wolf->texture->wall_x = wolf->posY + wolf->perpWallDist * wolf->rayDirY;
+	else
+		wolf->texture->wall_x = wolf->posX + wolf->perpWallDist * wolf->rayDirX;
+	wolf->texture->wall_x -= floor(wolf->texture->wall_x);
+	wolf->texture->text_x = (int)(wolf->texture->wall_x * 64.0);
+	if (wolf->side == 2 || wolf->side == 1)
+		wolf->texture->text_x = 64 - wolf->texture->text_x - 1;
+	calc_y(wolf, x);
+}
+
+void	calc_y(t_wolf *wolf, int x)
+{
+	int y;
+
+	y = wolf->drawStart;
+	while (y < wolf->drawEnd)
+	{
+		wolf->texture->magic_d = y * 256 - HEIGHT * 128 + wolf->lineHeight * 128;
+		wolf->texture->text_y = ((wolf->texture->magic_d * 64) / wolf->lineHeight) / 256;
+		wolf->color = get_pix_from_text(wolf->texture->wall_text[wolf->texture->text_num], wolf->texture->text_x, wolf->texture->text_y);
+		ft_set_pixel(wolf, x, y);
+		y++;
+	}
+}
+
 void	calc_height(t_wolf *wolf)
 {
 	wolf->lineHeight = (int)(HEIGHT / wolf->perpWallDist);
@@ -29,7 +64,6 @@ void	search_wall(t_wolf *wolf)
 	{
 		if (wolf->sideDistX < wolf->sideDistY)
 		{
-			printf("sideDistX = %f\n", wolf->sideDistX);
 			wolf->sideDistX += wolf->deltaDistX;
 			wolf->mapX += wolf->stepX;
 			wolf->side = 0;
@@ -38,7 +72,6 @@ void	search_wall(t_wolf *wolf)
 		}
 		else
 		{
-			printf("sideDistY = %f\n", wolf->sideDistY);
 			wolf->sideDistY += wolf->deltaDistY;
 			wolf->mapY += wolf->stepY;
 			wolf->side = 1;
@@ -76,8 +109,7 @@ void	game(t_wolf *wolf)
 			init_sidedist(wolf);
 			search_wall(wolf);
 			calc_height(wolf);
-			set_color(wolf);
-			draw_vert_line(wolf, x);
+			calc_wall(wolf, x);
 			x++;
 		}
 		SDL_UpdateWindowSurface(wolf->win);
