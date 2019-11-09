@@ -19,12 +19,12 @@ void	draw_fps(t_wolf *wolf)
 	SDL_Rect	f;
 	char		*fps;
 
-	fps = ft_itoa(123);
-	f.x = 100;
-	f.y = 100;
-	color = (SDL_Color){10, 10, 10, 0};
+	fps = ft_itoa((int)(100.0 / wolf->time));
+	f.x = 50;
+	f.y = 50;
+	color = (SDL_Color){100, 10, 10, 0};
 	message = TTF_RenderText_Solid(wolf->font, fps, color);
-	SDL_BlitSurface(message, NULL, wolf->sur, &f);
+	SDL_BlitSurface(message, NULL, SDL_GetWindowSurface(wolf->win), &f);
 	SDL_UpdateWindowSurface(wolf->win);
 	SDL_FreeSurface(message);
 	free(fps);
@@ -189,7 +189,7 @@ void	game(t_wolf *wolf)
 	unsigned int	ticks;
 
 	init_var(wolf);
-	ticks = 10;
+	ticks = 0;
 	SDL_SetRelativeMouseMode(SDL_TRUE);
 	while (1)
 	{
@@ -218,9 +218,9 @@ void	game(t_wolf *wolf)
 			draw_plus(wolf);
 			x++;
 		}
+		wolf->time = (SDL_GetTicks() - ticks) / 10.0;
 		draw_fps(wolf);
-		wolf->time = (SDL_GetTicks() - ticks) / 10;
 		while (wolf->time < 2)
-			wolf->time = (SDL_GetTicks() - ticks) / 10;
+			wolf->time = (SDL_GetTicks() - ticks) / 10.0;
 	}
 }

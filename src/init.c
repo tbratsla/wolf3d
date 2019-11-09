@@ -30,6 +30,7 @@ void	init_var(t_wolf *wolf)
 	wolf->win = SDL_CreateWindow("Create Level", SDL_WINDOWPOS_CENTERED, \
 		SDL_WINDOWPOS_CENTERED, WIDTH,\
 		HEIGHT, SDL_WINDOW_RESIZABLE);
+	TTF_Init();
 	wolf->texture = ft_memalloc(sizeof(t_text));
 	wolf->sur = SDL_GetWindowSurface(wolf->win);
 	load_textures(wolf);
@@ -42,7 +43,9 @@ void	init_var(t_wolf *wolf)
 	wolf->events->l_rot = 0;
 	wolf->time = 0.1;
 	wolf->text_flag = 0;
-	wolf->font = TTF_OpenFont("SDL_TTF", 80);
+	wolf->font = TTF_OpenFont("font/font.ttf", 80);
+	if (wolf->font == NULL)
+		exit(1);
 }
 
 void	init_sidedist(t_wolf *wolf)
