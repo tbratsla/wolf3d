@@ -12,6 +12,59 @@
 
 #include "../inc/wolf3d.h"
 
+void	draw_floor(t_wolf *wolf, int x)
+{
+	int y;
+
+	if (wolf->drawEnd < 0)
+		wolf->drawEnd = HEIGHT;
+	y = wolf->drawEnd + 1;
+	while (y < HEIGHT)
+	{
+		wolf->floor.currentDist = HEIGHT / (2.0 * y - HEIGHT);
+		wolf->floor.weight = (wolf->floor.currentDist - wolf->floor.distPlayer)\
+		/ (wolf->floor.distWall - wolf->floor.distPlayer);
+		wolf->floor.curFloorX =  wolf->floor.weight * wolf->floor.floorX_wall +\
+		(1.0 - wolf->floor.weight) * wolf->posX;
+		wolf->floor.curFloorY = wolf->floor.weight * wolf->floor.floorY_wall\
+		+ (1.0 - wolf->floor.weight) * wolf->posY;
+		wolf->floor.floorTexX = (int)(wolf->floor.curFloorX * 64) % 64;
+		wolf->floor.floorTexY = (int)(wolf->floor.curFloorY * 64) % 64;
+		wolf->color = get_pix_from_text(wolf->texture->floor_text[0], wolf->floor.floorTexX, wolf->floor.floorTexY);
+		ft_set_pixel(wolf, x, y);
+		wolf->color = get_pix_from_text(wolf->texture->floor_text[1], wolf->floor.floorTexX, wolf->floor.floorTexY);
+		ft_set_pixel(wolf, x, HEIGHT - y);
+		y++;
+	}
+}
+
+void	calc_floor(t_wolf *wolf, int x)
+{
+	if (wolf->side == 2)
+	{
+		wolf->floor.floorX_wall = wolf->mapX;
+		wolf->floor.floorY_wall = wolf->mapY + wolf->texture->wall_x;
+	}
+	if (wolf->side == 0)
+	{
+		wolf->floor.floorX_wall = wolf->mapX + 1.0;
+		wolf->floor.floorY_wall = wolf->mapY + wolf->texture->wall_x;
+	}
+	if (wolf->side == 3)
+	{
+		wolf->floor.floorX_wall = wolf->mapX + wolf->texture->wall_x;
+		wolf->floor.floorY_wall = wolf->mapY;
+	}
+	if (wolf->side == 1)
+	{
+		wolf->floor.floorX_wall = wolf->mapX + wolf->texture->wall_x;
+		wolf->floor.floorY_wall = wolf->mapY + 1.0;
+	}
+	wolf->floor.distWall = wolf->perpWallDist;
+	wolf->floor.distPlayer = 0.0;
+	draw_floor(wolf, x);
+}
+
 void	calc_wall(t_wolf *wolf, int x)
 {
 	wolf->texture->text_num = wolf->map[wolf->mapX][wolf->mapY] - 1;
@@ -92,12 +145,15 @@ void	search_wall(t_wolf *wolf)
 
 void	game(t_wolf *wolf)
 {
-	int		x;
+	int				x;
+	unsigned int	ticks;
 
 	init_var(wolf);
+	ticks = 10;
 	SDL_SetRelativeMouseMode(SDL_TRUE);
 	while (1)
 	{
+		ticks = SDL_GetTicks();
 		while (SDL_PollEvent(&wolf->event))
 			event(wolf);
 		SDL_GetRelativeMouseState(&wolf->mouse.x,&wolf->mouse.y);
@@ -110,8 +166,12 @@ void	game(t_wolf *wolf)
 			search_wall(wolf);
 			calc_height(wolf);
 			calc_wall(wolf, x);
+			calc_floor(wolf, x);
 			x++;
 		}
 		SDL_UpdateWindowSurface(wolf->win);
+		wolf->time = (SDL_GetTicks() - ticks) / 10;
+		while (wolf->time < 2)
+			wolf->time = (SDL_GetTicks() - ticks) / 10;
 	}
 }

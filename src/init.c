@@ -31,20 +31,6 @@ void	init_var(t_wolf *wolf)
 		SDL_WINDOWPOS_CENTERED, WIDTH,\
 		HEIGHT, SDL_WINDOW_RESIZABLE);
 	wolf->texture = ft_memalloc(sizeof(t_text));
-	// if (!(wolf->rend = SDL_CreateRenderer(wolf->win, -1, \
-	// 	SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC)))
-	// {
-	// 	ft_putendl("ERROR1");
-	// 	exit(1);
-	// }
-	// if (!(wolf->tex = SDL_CreateTexture(wolf->rend, SDL_PIXELFORMAT_ARGB8888, \
-	// 	SDL_TEXTUREACCESS_TARGET, WIDTH, HEIGHT)))
-	// {
-	// 	ft_putendl("ERROR2");
-	// 	exit(1);
-	// }
-	// wolf->sur = SDL_CreateRGBSurface(0, WIDTH, HEIGHT, 32, 0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
-	
 	wolf->sur = SDL_GetWindowSurface(wolf->win);
 	load_textures(wolf);
 	wolf->events = ft_memalloc(sizeof(t_ev));
@@ -53,8 +39,8 @@ void	init_var(t_wolf *wolf)
 	wolf->events->r_rot = 0;
 	wolf->events->r_move = 0;
 	wolf->events->l_move = 0;
-	// wolf->angle = 0.0;
 	wolf->events->l_rot = 0;
+	wolf->time = 0.1;
 }
 
 void	init_sidedist(t_wolf *wolf)

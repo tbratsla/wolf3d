@@ -14,6 +14,8 @@
 
 void	event(t_wolf *wolf)
 {
+	// wolf->move_speed = wolf->time * 5.0;
+	// wolf->rot_speed = wolf->time * 3.0;
 	if (wolf->event.key.type == SDL_KEYDOWN || wolf->event.key.type == SDL_KEYUP)
 	{
 		if ((wolf->event.key.type == SDL_KEYDOWN &&
@@ -61,12 +63,14 @@ void	side_step(t_wolf *wolf, int side)
 void	movement(t_wolf *wolf, double side)
 {
 	ft_clear_screen(wolf);
-	if (!wolf->map[(int)(wolf->posX + side * wolf->dirX * wolf->move_speed)]\
+	if (!wolf->map[(int)(wolf->posX + side * wolf->dirX * wolf->move_speed + 0.2)]\
+		[(int)(wolf->posY)] && !wolf->map[(int)(wolf->posX + side * wolf->dirX * wolf->move_speed - 0.2)]\
 		[(int)(wolf->posY)])
-		wolf->posX += wolf->dirX * wolf->move_speed * side;
+		wolf->posX += wolf->dirX * wolf->move_speed * side * wolf->time;
 	if (!wolf->map[(int)(wolf->posX)][(int)(wolf->posY + side * wolf->dirY\
-		* wolf->move_speed)])
-		wolf->posY += wolf->dirY * wolf->move_speed * side;
+		* wolf->move_speed + 0.2)]&& !wolf->map[(int)(wolf->posX)][(int)(wolf->posY + side * wolf->dirY\
+		* wolf->move_speed - 0.2)])
+		wolf->posY += wolf->dirY * wolf->move_speed * side * wolf->time;
 }
 
 void	rotation(t_wolf *wolf, int side, double angle)

@@ -14,12 +14,13 @@
 
 void			load_textures(t_wolf *wolf)
 {
-	if (!(wolf->texture->wall_text = ft_memalloc(sizeof(SDL_Surface) * TEXTNUM)))
+	if (!(wolf->texture->wall_text = ft_memalloc(sizeof(SDL_Surface) * TEXTNUM)) ||
+		!(wolf->texture->floor_text = ft_memalloc(sizeof(SDL_Surface) * 2)))
 	{
 		ft_putendl("ERROR: cannot load texture (");
 		exit(1);
 	}
-	wolf->texture->wall_text[0] = load_texture("./texture/glass_blue.png");
+	wolf->texture->wall_text[0] = load_texture("./texture/glass_light_blue.png");
 	wolf->texture->wall_text[1] = load_texture("./texture/brick.png");
 	wolf->texture->wall_text[2] = load_texture("./texture/redstone_lamp_on.png");
 	wolf->texture->wall_text[3] = load_texture("./texture/crafting_table_front.png");
@@ -32,7 +33,7 @@ void			load_textures(t_wolf *wolf)
 	wolf->texture->wall_text[10] = load_texture("./texture/iron_ore.png");
 	wolf->texture->wall_text[11] = load_texture("./texture/leaves_acacia_opaque.png");
 	wolf->texture->wall_text[12] = load_texture("./texture/log_oak.png");
-	wolf->texture->wall_text[13] = load_texture("./texture/glass_light_blue.png");
+	wolf->texture->wall_text[13] = load_texture("./texture/glass_blue.png");
 	wolf->texture->wall_text[14] = load_texture("./texture/piston_bottom.png");
 	wolf->texture->wall_text[15] = load_texture("./texture/planks_acacia.png");
 	wolf->texture->wall_text[16] = load_texture("./texture/planks_big_oak.png");
@@ -58,6 +59,8 @@ void			load_textures2(t_wolf *wolf)
 	wolf->texture->wall_text[31] = load_texture("./texture/wool_colored_lime.png");
 	wolf->texture->wall_text[32] = load_texture("./texture/wool_colored_purple.png");
 	wolf->texture->wall_text[33] = load_texture("./texture/wool_colored_yellow.png");
+	wolf->texture->floor_text[0] = load_texture("./texture/wool_colored_blue.png");
+	wolf->texture->floor_text[1] = load_texture("./texture/glowstone.png");
 }
 
 SDL_Surface		*load_texture(char *path)

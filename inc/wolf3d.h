@@ -27,13 +27,43 @@
 # define RED		0xdb0000
 # define YELLOW		0xffe600
 # define PURPURE	0x960069
+# define DARK_RED	0x800000
+# define ORANGE		0xffc800
 # define ARGENT		0xf5f8ff
+# define TEXTW		64
+# define TEXTH		64
+# define TEXTNUM	34
 
 typedef struct		s_mou
 {
 	int				x;
 	int				y;
 }					t_mou;
+
+typedef struct		s_texture
+{
+	SDL_Surface		**wall_text;
+	SDL_Surface		**floor_text;
+	int				text_num;
+	double			wall_x;
+	int				text_x;
+	int				text_y;
+	int				magic_d;
+}					t_text;
+
+typedef struct		s_floor
+{
+	double			floorX_wall;
+	double			floorY_wall;
+	double			distWall;
+	double			distPlayer;
+	double			currentDist;
+	int				floorTexX;
+	int				floorTexY;
+	double			weight;
+	double			curFloorX;
+	double			curFloorY;
+}					t_floor;
 
 typedef struct		s_ev
 {
@@ -53,7 +83,10 @@ typedef struct		s_wolf
 	SDL_Window		*win;
 	SDL_Surface		*sur;
 	SDL_Event		event;
-	SDL_Surface		*texture[16];
+	SDL_Texture		*tex;
+	SDL_Renderer	*rend;
+	t_text			*texture;
+	t_floor			floor;
 	double			posX;
 	double			posY;  //x and y start position
 	double			dirX;
@@ -79,7 +112,7 @@ typedef struct		s_wolf
     int				lineHeight;
     int				drawStart;
     int				drawEnd;
-    int				color;
+    Uint32			color;
     double			move_speed;
     double			rot_speed;
     t_ev			*events;
@@ -110,7 +143,15 @@ void				init_var(t_wolf *wolf);
 void				search_wall(t_wolf *wolf);
 
 /*
-** event function
+** texture functions
+*/
+
+void				load_textures(t_wolf *wolf);
+void				load_textures2(t_wolf *wolf);
+SDL_Surface			*load_texture(char *path);
+
+/*
+** event functions
 */
 
 void				event(t_wolf *wolf);
@@ -126,6 +167,8 @@ void				set_color(t_wolf *wolf);
 void				ft_set_pixel(t_wolf *wolf, int x, int y);
 void				draw_vert_line(t_wolf *wolf, int x);
 void				ft_clear_screen(t_wolf *wolf);
+Uint32				get_pix_from_text(SDL_Surface *text, int x, int y);
+void				calc_y(t_wolf *wolf, int x);
 
 
 /*
