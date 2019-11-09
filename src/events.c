@@ -36,6 +36,8 @@ void	event(t_wolf *wolf)
 			wolf->events->r_move = wolf->event.key.type == SDL_KEYDOWN;
 		if (wolf->event.key.keysym.sym == SDLK_a)
 			wolf->events->l_move = wolf->event.key.type == SDL_KEYDOWN;
+		if (wolf->event.key.keysym.sym == SDLK_RETURN && wolf->event.type != SDL_KEYUP)
+  			wolf->text_flag = wolf->text_flag ? 0 : 1;
 		if (wolf->events->up)
 			movement(wolf, 1.0);
 		if (wolf->events->down)
@@ -53,23 +55,31 @@ void	event(t_wolf *wolf)
 
 void	side_step(t_wolf *wolf, int side)
 {
-	ft_clear_screen(wolf);
-	rotation(wolf, side, M_PI / 2);
-	movement(wolf, 0.2);
-	rotation(wolf, -side, M_PI / 2);
+	double tmp;
+	double old_dir_x;
+	double old_dir_y;
 
+	old_dir_x = wolf->dirX;
+	old_dir_y = wolf->dirY;
+	tmp = wolf->dirX;
+	old_dir_x = old_dir_x * cos(-M_PI / 2) - old_dir_y\
+		* sin(-M_PI / 2);
+	old_dir_y = tmp * sin(-M_PI / 2) + old_dir_y\
+		* cos(-M_PI / 2);
+	if (!wolf->map[(int)(wolf->posX + side * old_dir_x * wolf->move_speed * 3)][(int)(wolf->posY)])
+		wolf->posX += old_dir_x * 0.02 * side * wolf->time;
+	if (!wolf->map[(int)(wolf->posX)][(int)(wolf->posY + side * old_dir_y\
+		* wolf->move_speed * 3)])
+		wolf->posY += old_dir_y * 0.02 * side * wolf->time;
 }
 
 void	movement(t_wolf *wolf, double side)
 {
 	ft_clear_screen(wolf);
-	if (!wolf->map[(int)(wolf->posX + side * wolf->dirX * wolf->move_speed + 0.2)]\
-		[(int)(wolf->posY)] && !wolf->map[(int)(wolf->posX + side * wolf->dirX * wolf->move_speed - 0.2)]\
-		[(int)(wolf->posY)])
+	if (!wolf->map[(int)(wolf->posX + side * wolf->dirX * wolf->move_speed * 3)][(int)(wolf->posY)])
 		wolf->posX += wolf->dirX * wolf->move_speed * side * wolf->time;
 	if (!wolf->map[(int)(wolf->posX)][(int)(wolf->posY + side * wolf->dirY\
-		* wolf->move_speed + 0.2)]&& !wolf->map[(int)(wolf->posX)][(int)(wolf->posY + side * wolf->dirY\
-		* wolf->move_speed - 0.2)])
+		* wolf->move_speed * 3)])
 		wolf->posY += wolf->dirY * wolf->move_speed * side * wolf->time;
 }
 

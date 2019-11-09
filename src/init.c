@@ -20,7 +20,7 @@ void	init_var(t_wolf *wolf)
 	wolf->dirY = 0;
 	wolf->planeX = 0;
 	wolf->planeY = 0.33;
-	wolf->move_speed = 0.1;
+	wolf->move_speed = 0.05;
 	wolf->rot_speed = 0.02;
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 	{
@@ -41,6 +41,8 @@ void	init_var(t_wolf *wolf)
 	wolf->events->l_move = 0;
 	wolf->events->l_rot = 0;
 	wolf->time = 0.1;
+	wolf->text_flag = 0;
+	wolf->font = TTF_OpenFont("SDL_TTF", 80);
 }
 
 void	init_sidedist(t_wolf *wolf)

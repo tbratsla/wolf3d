@@ -16,27 +16,37 @@ Uint32	get_pix_from_text(SDL_Surface *text, int x, int y)
 {
 	Uint32	*tmp;
 
+	x %= 64;
+	y %= 64;
+	if (!text)
+		return (0x000000);
+	if (!text->pixels)
+		return (0x000000);
+	if (!text->w)
+		return (0x000000);
+	if (text->w != 64)
+		return (0x000000);
 	tmp = (Uint32 *)text->pixels;
 	return (tmp[(y * text->w) + x]);
 }
 
 void	set_color(t_wolf *wolf)
 {
-	if (wolf->map[wolf->mapX][wolf->mapY] == 1)
+	if (wolf->map[wolf->mapX][wolf->mapY] % 9 == 1)
 		wolf->color = GREEN;
-	if (wolf->map[wolf->mapX][wolf->mapY] == 2)
+	if (wolf->map[wolf->mapX][wolf->mapY] % 9 == 2)
 		wolf->color = BLUE;
-	if (wolf->map[wolf->mapX][wolf->mapY] == 3)
+	if (wolf->map[wolf->mapX][wolf->mapY] % 9 == 3)
 		wolf->color = RED;
-	if (wolf->map[wolf->mapX][wolf->mapY] == 4)
+	if (wolf->map[wolf->mapX][wolf->mapY] % 9== 4)
 		wolf->color = YELLOW;
-	if (wolf->map[wolf->mapX][wolf->mapY] == 5)
+	if (wolf->map[wolf->mapX][wolf->mapY] % 9 == 5)
 		wolf->color = ARGENT;
-	if (wolf->map[wolf->mapX][wolf->mapY] == 6)
+	if (wolf->map[wolf->mapX][wolf->mapY] % 9 == 6)
 		wolf->color = PURPURE;
-	if (wolf->map[wolf->mapX][wolf->mapY] == 7)
+	if (wolf->map[wolf->mapX][wolf->mapY] % 9 == 7)
 		wolf->color = RED;
-	if (wolf->map[wolf->mapX][wolf->mapY] == 8)
+	if (wolf->map[wolf->mapX][wolf->mapY] % 9 == 8)
 		wolf->color = RED;
 	if (wolf->side == 1)
 		wolf->color = wolf->color / 2;

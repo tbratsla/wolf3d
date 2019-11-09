@@ -12,7 +12,7 @@
 
 CC = gcc
 
-FLAGS = -Werror -Wall -O3 -Wextra -Ofast -flto -pipe -fsanitize=address -g
+FLAGS = -Werror -Wall -O3 -Wextra -Ofast -flto -pipe
 
 NAME = wolf3d
 

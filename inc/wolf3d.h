@@ -85,6 +85,7 @@ typedef struct		s_wolf
 	SDL_Event		event;
 	SDL_Texture		*tex;
 	SDL_Renderer	*rend;
+	TTF_Font		*font;
 	t_text			*texture;
 	t_floor			floor;
 	double			posX;
@@ -117,6 +118,7 @@ typedef struct		s_wolf
     double			rot_speed;
     t_ev			*events;
     t_mou			mouse;
+    int				text_flag;
     double			angle_x;
 }					t_wolf;
 

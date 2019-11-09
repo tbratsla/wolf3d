@@ -12,6 +12,46 @@
 
 #include "../inc/wolf3d.h"
 
+void	draw_fps(t_wolf *wolf)
+{
+	SDL_Color	color;
+	SDL_Surface	*message;
+	SDL_Rect	f;
+	char		*fps;
+
+	fps = ft_itoa(123);
+	f.x = 100;
+	f.y = 100;
+	color = (SDL_Color){10, 10, 10, 0};
+	message = TTF_RenderText_Solid(wolf->font, fps, color);
+	SDL_BlitSurface(message, NULL, wolf->sur, &f);
+	SDL_UpdateWindowSurface(wolf->win);
+	SDL_FreeSurface(message);
+	free(fps);
+}
+
+void	draw_plus(t_wolf *wolf)
+{
+	int x;
+	int y;
+
+	x = WIDTH / 2 - 10;
+	y = HEIGHT / 2;
+	wolf->color = 0x2cbf53;
+	while (x <  WIDTH / 2 + 10)
+	{
+		ft_set_pixel(wolf, x, y);
+		x++;
+	}
+	x = WIDTH / 2;
+	y = HEIGHT / 2 - 10;
+	while (y <  HEIGHT / 2 + 10)
+	{
+		ft_set_pixel(wolf, x, y);
+		y++;
+	}
+}
+
 void	draw_floor(t_wolf *wolf, int x)
 {
 	int y;
@@ -165,11 +205,20 @@ void	game(t_wolf *wolf)
 			init_sidedist(wolf);
 			search_wall(wolf);
 			calc_height(wolf);
-			calc_wall(wolf, x);
-			calc_floor(wolf, x);
+			if (wolf->text_flag == 1)
+			{
+				calc_wall(wolf, x);
+				calc_floor(wolf, x);
+			}
+			if (wolf->text_flag == 0)
+			{
+				set_color(wolf);
+				draw_vert_line(wolf, x);
+			}
+			draw_plus(wolf);
 			x++;
 		}
-		SDL_UpdateWindowSurface(wolf->win);
+		draw_fps(wolf);
 		wolf->time = (SDL_GetTicks() - ticks) / 10;
 		while (wolf->time < 2)
 			wolf->time = (SDL_GetTicks() - ticks) / 10;
