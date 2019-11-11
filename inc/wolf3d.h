@@ -53,16 +53,16 @@ typedef struct		s_texture
 
 typedef struct		s_floor
 {
-	double			floorX_wall;
-	double			floorY_wall;
-	double			distWall;
-	double			distPlayer;
-	double			currentDist;
-	int				floorTexX;
-	int				floorTexY;
+	double			floor_x_wall;
+	double			floor_y_wall;
+	double			dist_wall;
+	double			dist_player;
+	double			current_dist;
+	int				floor_tex_x;
+	int				floor_tex_y;
 	double			weight;
-	double			curFloorX;
-	double			curFloorY;
+	double			cur_floor_x;
+	double			cur_floor_y;
 }					t_floor;
 
 typedef struct		s_ev
@@ -88,38 +88,37 @@ typedef struct		s_wolf
 	TTF_Font		*font;
 	t_text			*texture;
 	t_floor			floor;
-	double			posX;
-	double			posY;  //x and y start position
-	double			dirX;
-	double			dirY; //initial direction vector
-	double			planeX;
-	double			planeY; //the 2d raycaster version of camera plane
-	double			time; //time of current frame
-	double			oldTime; //time of previous frame
-	int				mapX;
-	int				mapY;
-	double			cameraX; //x-coordinate in camera space
-	double			rayDirX;
-    double			rayDirY;
-    double			sideDistX;
-    double			sideDistY;
-    double			deltaDistX;
-    double			deltaDistY;
-    double			perpWallDist;
-    int				stepX;
-    int				stepY;
-    int				hit; //was there a wall hit?
-    int				side;
-    int				lineHeight;
-    int				drawStart;
-    int				drawEnd;
-    Uint32			color;
-    double			move_speed;
-    double			rot_speed;
-    t_ev			*events;
-    t_mou			mouse;
-    int				text_flag;
-    double			angle_x;
+	double			pos_x;
+	double			pos_y;
+	double			dir_x;
+	double			dir_y;
+	double			plane_x;
+	double			plane_y;
+	double			time;
+	int				map_x;
+	int				map_y;
+	double			camera_x;
+	double			raydir_x;
+	double			raydir_y;
+	double			side_dist_x;
+	double			side_dist_y;
+	double			delta_dist_x;
+	double			delta_dist_y;
+	double			perp_wall_dist;
+	int				step_x;
+	int				step_y;
+	int				hit;
+	int				side;
+	int				line_height;
+	int				draw_start;
+	int				draw_end;
+	Uint32			color;
+	double			move_speed;
+	double			rot_speed;
+	t_ev			*events;
+	t_mou			mouse;
+	int				text_flag;
+	double			angle_x;
 }					t_wolf;
 
 /*
@@ -135,6 +134,14 @@ void				ft_count_str(t_wolf *wolf, char **double_map);
 void				ft_check_map_format(t_wolf *wolf, char **map);
 
 /*
+** valid functions
+*/
+
+void				check_map_side(t_wolf *wolf);
+void				check_all_lines(t_wolf *wolf, char **map);
+void				check_map_side2(t_wolf *wolf);
+
+/*
 ** Raycasting functions
 */
 
@@ -142,7 +149,12 @@ void				game(t_wolf *wolf);
 void				init_raycast(t_wolf *wolf, int x);
 void				init_sidedist(t_wolf *wolf);
 void				init_var(t_wolf *wolf);
+void				init_var2(t_wolf *wolf);
 void				search_wall(t_wolf *wolf);
+void				calc_y(t_wolf *wolf, int x);
+void				calc_floor(t_wolf *wolf, int x);
+void				calc_wall(t_wolf *wolf, int x);
+void				calc_height(t_wolf *wolf);
 
 /*
 ** texture functions
@@ -150,6 +162,7 @@ void				search_wall(t_wolf *wolf);
 
 void				load_textures(t_wolf *wolf);
 void				load_textures2(t_wolf *wolf);
+void				load_textures3(t_wolf *wolf);
 SDL_Surface			*load_texture(char *path);
 
 /*
@@ -170,8 +183,9 @@ void				ft_set_pixel(t_wolf *wolf, int x, int y);
 void				draw_vert_line(t_wolf *wolf, int x);
 void				ft_clear_screen(t_wolf *wolf);
 Uint32				get_pix_from_text(SDL_Surface *text, int x, int y);
-void				calc_y(t_wolf *wolf, int x);
-
+void				draw_fps(t_wolf *wolf);
+void				draw_plus(t_wolf *wolf);
+void				draw_floor(t_wolf *wolf, int x);
 
 /*
 ** free function

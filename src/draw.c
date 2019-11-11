@@ -16,37 +16,28 @@ Uint32	get_pix_from_text(SDL_Surface *text, int x, int y)
 {
 	Uint32	*tmp;
 
-	x %= 64;
-	y %= 64;
-	if (!text)
-		return (0x000000);
-	if (!text->pixels)
-		return (0x000000);
-	if (!text->w)
-		return (0x000000);
-	if (text->w != 64)
-		return (0x000000);
-	tmp = (Uint32 *)text->pixels;
-	return (tmp[(y * text->w) + x]);
+	tmp = text->pixels + y * text->pitch +
+		x * text->format->BytesPerPixel;
+	return (*tmp);
 }
 
 void	set_color(t_wolf *wolf)
 {
-	if (wolf->map[wolf->mapX][wolf->mapY] % 9 == 1)
+	if (wolf->map[wolf->map_x][wolf->map_y] % 9 == 1)
 		wolf->color = GREEN;
-	if (wolf->map[wolf->mapX][wolf->mapY] % 9 == 2)
+	if (wolf->map[wolf->map_x][wolf->map_y] % 9 == 2)
 		wolf->color = BLUE;
-	if (wolf->map[wolf->mapX][wolf->mapY] % 9 == 3)
+	if (wolf->map[wolf->map_x][wolf->map_y] % 9 == 3)
 		wolf->color = RED;
-	if (wolf->map[wolf->mapX][wolf->mapY] % 9== 4)
+	if (wolf->map[wolf->map_x][wolf->map_y] % 9 == 4)
 		wolf->color = YELLOW;
-	if (wolf->map[wolf->mapX][wolf->mapY] % 9 == 5)
+	if (wolf->map[wolf->map_x][wolf->map_y] % 9 == 5)
 		wolf->color = ARGENT;
-	if (wolf->map[wolf->mapX][wolf->mapY] % 9 == 6)
+	if (wolf->map[wolf->map_x][wolf->map_y] % 9 == 6)
 		wolf->color = PURPURE;
-	if (wolf->map[wolf->mapX][wolf->mapY] % 9 == 7)
+	if (wolf->map[wolf->map_x][wolf->map_y] % 9 == 7)
 		wolf->color = RED;
-	if (wolf->map[wolf->mapX][wolf->mapY] % 9 == 8)
+	if (wolf->map[wolf->map_x][wolf->map_y] % 9 == 8)
 		wolf->color = RED;
 	if (wolf->side == 1)
 		wolf->color = wolf->color / 2;
@@ -54,8 +45,6 @@ void	set_color(t_wolf *wolf)
 		wolf->color = wolf->color * 2;
 	if (wolf->side == 3)
 		wolf->color = wolf->color * 3;
-	// SDL_SetRenderDrawColor(wolf->rend, (wolf->color >> 16) % 256, \
-	// 	(wolf->color >> 8) % 256 , wolf->color % 256, 128);
 }
 
 void	ft_set_pixel(t_wolf *wolf, int x, int y)
@@ -74,10 +63,9 @@ void	draw_vert_line(t_wolf *wolf, int x)
 {
 	int		y;
 
-	y = wolf->drawStart;
-	while (y < wolf->drawEnd)
+	y = wolf->draw_start;
+	while (y < wolf->draw_end)
 	{
-		// SDL_RenderDrawPoint(wolf->rend, x, y);
 		ft_set_pixel(wolf, x, y);
 		y++;
 	}

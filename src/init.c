@@ -12,25 +12,60 @@
 
 #include "../inc/wolf3d.h"
 
+void	get_player_position(t_wolf *wolf)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i < wolf->count_str)
+	{
+		j = 0;
+		while (j < wolf->count_num)
+		{
+			if (!wolf->map[i][j])
+			{
+				wolf->pos_x = i + 0.5;
+				wolf->pos_y = j + 0.5;
+				return ;
+			}
+			j++;
+		}
+		i++;
+	}
+	if (!wolf->pos_x || !wolf->pos_y)
+	{
+		ft_putendl("Error9: No space to spawn player");
+		exit(1);
+	}
+}
+
 void	init_var(t_wolf *wolf)
 {
-	wolf->posX = 1.5;
-	wolf->posY = 1.5;
-	wolf->dirX = -1;
-	wolf->dirY = 0;
-	wolf->planeX = 0;
-	wolf->planeY = 0.33;
+	wolf->pos_x = 0;
+	wolf->pos_y = 0;
+	check_map_side(wolf);
+	get_player_position(wolf);
+	wolf->dir_x = -1;
+	wolf->dir_y = 0;
+	wolf->plane_x = 0;
+	wolf->plane_y = 0.33;
 	wolf->move_speed = 0.05;
 	wolf->rot_speed = 0.02;
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 	{
-		ft_putendl("ERROR0");
+		ft_putendl("Error init SDL");
 		exit(1);
 	}
 	wolf->win = SDL_CreateWindow("Create Level", SDL_WINDOWPOS_CENTERED, \
 		SDL_WINDOWPOS_CENTERED, WIDTH,\
 		HEIGHT, SDL_WINDOW_RESIZABLE);
 	TTF_Init();
+	init_var2(wolf);
+}
+
+void	init_var2(t_wolf *wolf)
+{
 	wolf->texture = ft_memalloc(sizeof(t_text));
 	wolf->sur = SDL_GetWindowSurface(wolf->win);
 	load_textures(wolf);
@@ -45,41 +80,46 @@ void	init_var(t_wolf *wolf)
 	wolf->text_flag = 0;
 	wolf->font = TTF_OpenFont("font/font.ttf", 80);
 	if (wolf->font == NULL)
+	{
+		ft_putendl("Error load font.ttf");
 		exit(1);
+	}
 }
 
 void	init_sidedist(t_wolf *wolf)
 {
-	if (wolf->rayDirX < 0)
+	if (wolf->raydir_x < 0)
 	{
-		wolf->stepX = -1;
-		wolf->sideDistX = (wolf->posX - wolf->mapX) * wolf->deltaDistX;
+		wolf->step_x = -1;
+		wolf->side_dist_x = (wolf->pos_x - wolf->map_x) * wolf->delta_dist_x;
 	}
 	else
 	{
-		wolf->stepX = 1;
-		wolf->sideDistX = (wolf->mapX + 1.0 - wolf->posX) * wolf->deltaDistX;
+		wolf->step_x = 1;
+		wolf->side_dist_x = (wolf->map_x + 1.0 -\
+			wolf->pos_x) * wolf->delta_dist_x;
 	}
-	if (wolf->rayDirY < 0)
+	if (wolf->raydir_y < 0)
 	{
-		wolf->stepY = -1;
-		wolf->sideDistY = (wolf->posY - wolf->mapY) * wolf->deltaDistY;
+		wolf->step_y = -1;
+		wolf->side_dist_y = (wolf->pos_y - wolf->map_y) * wolf->delta_dist_y;
 	}
 	else
 	{
-		wolf->stepY = 1;
-		wolf->sideDistY = (wolf->mapY + 1.0 - wolf->posY) * wolf->deltaDistY;
+		wolf->step_y = 1;
+		wolf->side_dist_y = (wolf->map_y + 1.0 -\
+			wolf->pos_y) * wolf->delta_dist_y;
 	}
 }
 
 void	init_raycast(t_wolf *wolf, int x)
 {
-	wolf->cameraX = 2 * x / (double)WIDTH - 1;
-	wolf->rayDirX = wolf->dirX + wolf->planeX * wolf->cameraX;
-	wolf->rayDirY = wolf->dirY + wolf->planeY * wolf->cameraX;
-	wolf->mapX = (int)wolf->posX;
-	wolf->mapY = (int)wolf->posY;
-	wolf->deltaDistX = fabs(1 / wolf->rayDirX);
-	wolf->deltaDistY = fabs(1 / wolf->rayDirY);
+	wolf->camera_x = 2 * x / (double)WIDTH - 1;
+	wolf->raydir_x = wolf->dir_x + wolf->plane_x * wolf->camera_x;
+	wolf->raydir_y = wolf->dir_y + wolf->plane_y * wolf->camera_x;
+	wolf->map_x = (int)wolf->pos_x;
+	wolf->map_y = (int)wolf->pos_y;
+	wolf->delta_dist_x = fabs(1 / wolf->raydir_x);
+	wolf->delta_dist_y = fabs(1 / wolf->raydir_y);
 	wolf->hit = 0;
 }

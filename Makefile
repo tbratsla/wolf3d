@@ -16,7 +16,8 @@ FLAGS = -Werror -Wall -O3 -Wextra -Ofast -flto -pipe
 
 NAME = wolf3d
 
-SRC = main.c read_map.c free.c game.c init.c events.c draw.c texture.c \
+SRC = 	main.c read_map.c free.c game.c init.c events.c draw.c \
+		texture.c draw_bonus.c calc.c valid.c read_map_help.c \
 
 INC = inc/wolf3d.h
 
