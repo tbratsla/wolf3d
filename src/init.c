@@ -59,7 +59,7 @@ void	init_var(t_wolf *wolf)
 	}
 	wolf->win = SDL_CreateWindow("Create Level", SDL_WINDOWPOS_CENTERED, \
 		SDL_WINDOWPOS_CENTERED, WIDTH,\
-		HEIGHT, SDL_WINDOW_RESIZABLE);
+		HEIGHT, SDL_WINDOW_SHOWN);
 	TTF_Init();
 	init_var2(wolf);
 }
